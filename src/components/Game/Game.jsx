@@ -5,14 +5,13 @@ import shuffleCards from "../../utils/shuffle";
 import GameOver from "../GameOver";
 
 const difficultyMap = {
-  easy: 3, // Cards to show in easy
-  medium: 4, // Cards to show in medium
-  hard: 5, // Cards to show in hard
-  easyRounds: 5, // All cards in easy game(rounds)
-  mediumRounds: 7, // All cards in medium game(rounds)
-  hardRounds: 10, // All cards in hard game(rounds)
+  easy: 3,
+  medium: 4,
+  hard: 5,
+  easyRounds: 5,
+  mediumRounds: 7,
+  hardRounds: 10,
 };
-
 
 export default function Game({ difficulty, allCards, onRestart }) {
   const cardsToShowSize = difficultyMap[difficulty];
@@ -29,7 +28,7 @@ export default function Game({ difficulty, allCards, onRestart }) {
   const [clickedCards, setClickedCards] = useState([]);
   const [cardsForRound, setCardsForRound] = useState([]);
   const [isGameWon, setIsGameWon] = useState(false);
-  
+  const [isFlipped, setIsFlipped] = useState(false);
 
   useEffect(() => {
     if (cardsForGame.length > 0) {
@@ -37,47 +36,51 @@ export default function Game({ difficulty, allCards, onRestart }) {
     }
   }, [cardsForGame, cardsToShowSize]);
 
-
   const playRound = (cardId) => {
+    if (isFlipped) return;
+
     if (clickedCards.includes(cardId)) {
       setIsGameOver(true);
       return;
     }
 
     const updatedClicked = [...clickedCards, cardId];
-
     let unpicked = cardsForGame.filter(
       (card) => !updatedClicked.includes(card.id)
     );
 
-    if(unpicked.length === 0) {
-      setScore((prev) => prev +1);
+    if (unpicked.length === 0) {
+      setScore((prev) => prev + 1);
       setBestScore((prev) => Math.max(prev, score + 1));
       setIsGameWon(true);
       setIsGameOver(true);
       return;
     }
 
-    // Pick 1 fresh card
-    const requiredFreshCard = shuffleCards(unpicked, 1)[0];
+    setIsFlipped(true);
 
-    const remainingPool = cardsForGame.filter(
-      (card) => card.id !== requiredFreshCard.id
-    );
+    setTimeout(() => {
+      const requiredFreshCard = shuffleCards(unpicked, 1)[0];
+      const remainingPool = cardsForGame.filter(
+        (card) => card.id !== requiredFreshCard.id
+      );
+      const others = shuffleCards(remainingPool, cardsToShowSize - 1);
+      const nextRound = [requiredFreshCard, ...others];
+      setCardsForRound(shuffleCards(nextRound, nextRound.length));
+    }, 1000);
 
-    // Select N-1 cards from remaining pool
-    const others = shuffleCards(remainingPool, cardsToShowSize - 1);
-    const nextRound = [requiredFreshCard, ...others];
+    setTimeout(() => {
+      setIsFlipped(false);
+    }, 1200);
 
-    setCardsForRound(shuffleCards(nextRound, nextRound.length));
     setClickedCards(updatedClicked);
     setScore((prevScore) => {
-    const newScore = prevScore + 1;
-    if (newScore > bestScore) {
-      setBestScore(newScore);
-    }
-    return newScore;
-  });
+      const newScore = prevScore + 1;
+      if (newScore > bestScore) {
+        setBestScore(newScore);
+      }
+      return newScore;
+    });
   };
 
   const handleRestart = () => {
@@ -86,7 +89,7 @@ export default function Game({ difficulty, allCards, onRestart }) {
     setScore(0);
     setClickedCards([]);
     setCardsForRound([]);
-    setRestartSeed(prev => prev + 1);
+    setRestartSeed((prev) => prev + 1);
   };
 
   return (
@@ -102,26 +105,41 @@ export default function Game({ difficulty, allCards, onRestart }) {
       <main>
         <div className="cards">
           {cardsForRound.map((card) => (
-            <Tilt
-              glareEnable={true}
-              glareMaxOpacity={0.8}
-              glareColor="#ffffff"
-              glarePosition="bottom"
-              glareBorderRadius="15px"
+            <div
               key={card.id}
+              className={isFlipped ? "card flipped" : "card"}
+              onClick={() => playRound(card.id)}
             >
-              <div className="card" onClick={() => playRound(card.id)}>
-                <img src={card.image_uris.art_crop} alt="" />
-                <p>{card.name.split(",")[0]}</p>
-              </div>
-            </Tilt>
+              <Tilt
+                glareEnable={false}
+                glareMaxOpacity={0.6}
+                glareColor="#ffffff"
+                glarePosition="bottom"
+                glareBorderRadius="15px"
+                className="tilt"
+              >
+                {/* NEW WRAPPER HERE */}
+                <div className="inner-flip">
+                  <div className="cardFace">
+                    <img src={card.image_uris.art_crop} alt="" />
+                    <p>{card.name.split(",")[0]}</p>
+                  </div>
+                  <div className="cardBack"></div>
+                </div>
+              </Tilt>
+            </div>
           ))}
         </div>
         <p className="card-score">
           {score} / {cardsToPlaySize}
         </p>
       </main>
-      {isGameOver && <GameOver status={isGameWon} handleRestartClick={handleRestart}></GameOver>}
+      {isGameOver && (
+        <GameOver
+          status={isGameWon}
+          handleRestartClick={handleRestart}
+        ></GameOver>
+      )}
     </>
   );
 }

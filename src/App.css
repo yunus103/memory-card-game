@@ -16,19 +16,18 @@ footer .info-box {
 footer .info-text {
   background-color: var(--green-dark);
   border-radius: 20px;
-  padding: .9rem 1.2rem;
+  padding: 0.9rem 1.2rem;
   font-size: 1.2rem;
   color: var(--text-white);
   border: 1.5px solid var(--green-neon);
   font-family: var(--font-ui);
-
 }
 
 footer .info-button {
   position: fixed;
   bottom: 25px;
   right: 30px;
-  padding: .9rem;
+  padding: 0.9rem;
   background-color: var(--green-neon);
   font-size: 1.2rem;
   border: none;
@@ -50,25 +49,13 @@ footer .info-button:hover {
   color: var(--text-green);
   font-family: var(--font-ui);
   font-size: 3rem;
-  text-shadow: 
-    -2px -2px 0 #000,  /* Top-left */
-     2px -2px 0 #000,  /* Top-right */
-    -2px  2px 0 #000,  /* Bottom-left */
-     2px  2px 0 #000,  /* Bottom-right */
-     0   -2px 0 #000,  /* Top */
-     0    2px 0 #000,  /* Bottom */
-    -2px  0   0 #000,  /* Left */
-     2px  0   0 #000;  /* Right */
+  text-shadow: -2px -2px 0 #000, /* Top-left */ 2px -2px 0 #000,
+    /* Top-right */ -2px 2px 0 #000, /* Bottom-left */ 2px 2px 0 #000,
+    /* Bottom-right */ 0 -2px 0 #000, /* Top */ 0 2px 0 #000,
+    /* Bottom */ -2px 0 0 #000, /* Left */ 2px 0 0 #000; /* Right */
 
-  text-shadow: 
-    -2px -2px 0 #000,  
-    2px -2px 0 #000,
-    -2px 2px 0 #000,
-    2px  2px 0 #000,
-    0 -2px 0 #000, 
-    0 2px 0 #000, 
-    -2px 0 0 #000, 
-    2px 0 0 #000; 
+  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
+    2px 2px 0 #000, 0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
 }
 
 .diffuculty-buttons {
@@ -82,7 +69,7 @@ footer .info-button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: .6rem 1.1rem;
+  padding: 0.6rem 1.1rem;
   background-color: var(--green-neon);
   font-family: var(--font-title);
   font-size: 1.5rem;
@@ -132,10 +119,11 @@ main {
   flex-direction: column;
   align-items: center;
   max-width: 90%;
+  width: 100%;
 }
 
 .score-info {
-  padding: .9rem .8rem;
+  padding: 0.9rem 0.8rem;
   background: var(--sewer-dark);
   color: var(--text-white);
   font-family: var(--font-score);
@@ -146,34 +134,89 @@ main {
 }
 
 .cards {
+  width: 100%;
+  /* display: grid; */
   display: flex;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
+  justify-items: center;
+  justify-content: center;
 }
 
 .card {
   width: 220px;
-  height: fit-content;
-  padding: .5rem;
-  padding-bottom: .7rem;
-  background: var(--green-dark);
-  border-radius: 15px;
+  height: 340px;
+  perspective: 1000px;
   cursor: pointer;
+  border-radius: 15px;
 }
 
-.card img {
+/* The library controls this element's transform. We just set 3d style. */
+.tilt {
   width: 100%;
-  height: 300px;
+  height: 100%;
+  transform-style: preserve-3d;
+  border-radius: 15px;
+}
+
+/* WE ROTATE THIS INNER DIV INSTEAD OF THE TILT COMPONENT */
+.inner-flip {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+
+/* When parent card has flipped class, rotate the inner div */
+.card.flipped .inner-flip {
+  transform: rotateY(180deg);
+}
+
+.cardFace,
+.cardBack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  /* Important: hides the back of the div so they don't shine through */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.cardFace {
+  padding: 0.5rem 0.7rem;
+  background: var(--green-dark);
+  display: flex;
+  flex-direction: column;
+  transform: rotateY(0deg); /* Front starts at 0 */
+}
+
+.cardBack {
+  background: url(./assets/card.webp);
+  background-size: cover;
+  background-position: center;
+  transform: rotateY(180deg); /* Back starts flipped away */
+}
+
+.cardFace img {
+  width: 100%;
+  height: 280px;
   object-fit: cover;
   border-radius: 15px;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
+  pointer-events: none;
 }
 
-.card p {
+.cardFace p {
   text-align: center;
   color: var(--text-white);
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-family: var(--font-ui);
   font-weight: bold;
+  margin-top: auto;
 }
 
 .card-score {
@@ -185,7 +228,7 @@ main {
   font-size: 2rem;
   font-family: var(--font-ui);
   background: var(--green-dark);
-  padding: .5rem .7rem;
+  padding: 0.5rem 0.7rem;
   border-radius: 15px;
   box-shadow: 0 0 40px 8px var(--green-neon);
 }
@@ -228,7 +271,7 @@ main {
   top: 12%;
   padding: 0.7rem 1.8rem;
 
-  background: #c82323;       /* red like your image */
+  background: #c82323; /* red like your image */
   color: #fff;
   font-size: 2rem;
   font-weight: 700;
@@ -269,11 +312,23 @@ main {
 
 /* --- small animations --- */
 @keyframes popIn {
-  from { transform: scale(0.85); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes fadeDown {
-  from { transform: translateY(-15px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(-15px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

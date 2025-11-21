@@ -1,0 +1,279 @@
+footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+footer .info-box {
+  position: relative;
+  bottom: 90px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+footer .info-text {
+  background-color: var(--green-dark);
+  border-radius: 20px;
+  padding: .9rem 1.2rem;
+  font-size: 1.2rem;
+  color: var(--text-white);
+  border: 1.5px solid var(--green-neon);
+  font-family: var(--font-ui);
+
+}
+
+footer .info-button {
+  position: fixed;
+  bottom: 25px;
+  right: 30px;
+  padding: .9rem;
+  background-color: var(--green-neon);
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+footer .info-button:hover {
+  background-color: var(--green-ooze);
+  transform: scale(1.05);
+}
+
+.outlined-text {
+  text-align: center;
+  color: var(--text-green);
+  font-family: var(--font-ui);
+  font-size: 3rem;
+  text-shadow: 
+    -2px -2px 0 #000,  /* Top-left */
+     2px -2px 0 #000,  /* Top-right */
+    -2px  2px 0 #000,  /* Bottom-left */
+     2px  2px 0 #000,  /* Bottom-right */
+     0   -2px 0 #000,  /* Top */
+     0    2px 0 #000,  /* Bottom */
+    -2px  0   0 #000,  /* Left */
+     2px  0   0 #000;  /* Right */
+
+  text-shadow: 
+    -2px -2px 0 #000,  
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px  2px 0 #000,
+    0 -2px 0 #000, 
+    0 2px 0 #000, 
+    -2px 0 0 #000, 
+    2px 0 0 #000; 
+}
+
+.diffuculty-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.diffuculty-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .6rem 1.1rem;
+  background-color: var(--green-neon);
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  outline: none;
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+  border: 2px solid var(--sewer-dark);
+  cursor: pointer;
+  transition: transform ease 0.3s;
+}
+
+.diffuculty-btn:hover {
+  transform: scale(1.05);
+  background-color: var(--green-ooze);
+}
+
+/* Game Screen */
+header {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+header img {
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+header img:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+  }
+
+  .homeImage {
+    max-width: 90%;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 90%;
+}
+
+.score-info {
+  padding: .9rem .8rem;
+  background: var(--sewer-dark);
+  color: var(--text-white);
+  font-family: var(--font-score);
+  font-weight: 900;
+  font-size: 1.4rem;
+  border-radius: 15px;
+  box-shadow: 0 0 40px 8px var(--green-neon);
+}
+
+.cards {
+  display: flex;
+  gap: 1rem;
+}
+
+.card {
+  width: 220px;
+  height: fit-content;
+  padding: .5rem;
+  padding-bottom: .7rem;
+  background: var(--green-dark);
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: .5rem;
+}
+
+.card p {
+  text-align: center;
+  color: var(--text-white);
+  font-size: 1.25rem;
+  font-family: var(--font-ui);
+  font-weight: bold;
+}
+
+.card-score {
+  display: inline;
+  text-align: center;
+  color: var(--text-white);
+  margin-top: 2rem;
+  font-weight: bold;
+  font-size: 2rem;
+  font-family: var(--font-ui);
+  background: var(--green-dark);
+  padding: .5rem .7rem;
+  border-radius: 15px;
+  box-shadow: 0 0 40px 8px var(--green-neon);
+}
+
+/* --- Full-screen dark overlay --- */
+.game-over-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(3px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+  padding: 1rem;
+}
+
+/* --- The image (win/lose art) --- */
+.game-over-modal img {
+  width: 85%;
+  max-width: 420px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+
+  /* subtle pop animation */
+  animation: popIn 0.25s ease-out;
+}
+
+/* --- Title badge (like “You lose!” red rounded box) --- */
+.game-over-title {
+  position: absolute;
+  top: 12%;
+  padding: 0.7rem 1.8rem;
+
+  background: #c82323;       /* red like your image */
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  border-radius: 18px;
+
+  font-family: "Fredoka One", sans-serif; /* cartoony look */
+  letter-spacing: 1px;
+
+  animation: fadeDown 0.3s ease-out;
+}
+
+.game-over-modal.win .game-over-title {
+  background: #34c759; /* iOS green */
+}
+
+/* --- Restart button --- */
+.restart {
+  padding: 0.9rem 2rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+
+  background: white;
+  color: black;
+
+  border: none;
+  border-radius: 40px;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  font-family: "Fredoka One", sans-serif;
+}
+
+.restart:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.25);
+}
+
+/* --- small animations --- */
+@keyframes popIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeDown {
+  from { transform: translateY(-15px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}

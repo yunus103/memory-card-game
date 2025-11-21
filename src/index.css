@@ -1,0 +1,104 @@
+:root {
+  /* ===============================
+    FONT SYSTEM
+  =============================== */
+  --font-title: 'Bebas Neue', sans-serif;        /* Big hero titles */
+  --font-ui: 'Kanit', sans-serif;                /* Buttons, UI text */
+  --font-info: 'Kanit', sans-serif;              /* Info messages */
+  --font-score: 'Orbitron', sans-serif;          /* Score / HUD */
+
+  /* ===============================
+     COLOR PALETTE (TMNT sewer theme)
+  =============================== */
+
+  /* Main TMNT Greens */
+  --green-ooze: #7CFF4F;         /* glowing ooze */
+  --green-neon: #00FF7F;         /* bright ninja highlight */
+  --green-dark: #1D402A;         /* sewer dark green */
+  --green-shell: #3F5F37;        /* turtle shell base */
+
+  /* Sewer Background Colors */
+  --sewer-dark: #0B1C13;         /* almost black green (background panels) */
+  --sewer-metal: #2F3B33;        /* pipes / industrial */
+  --sewer-grime: #1A251D;        /* side panels */
+
+  /* Card + Panel Colors */
+  --panel-bg: #14231A;           /* UI panels, card backgrounds */
+  --panel-border: #205339;       /* subtle green border */
+
+  /* Neutral Text Colors */
+  --text-white: #ffffff;
+  --text-green: #C8FFD1;         /* soft readable green */
+  --text-muted: #9EB5A6;
+
+  /* ===============================
+     SHADOWS
+  =============================== */
+  --shadow-soft: 5px 5px 15px rgba(0, 0, 0, 0.7);
+  --shadow-hard: 0 0 25px rgba(0, 255, 120, 0.25); /* ooze glow */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+
+  min-width: 320px;
+  min-height: 100vh;
+  background-image: url(assets/ninja.webp);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: rgba(11, 28, 19, 0.95); /* dark sewer green */
+  border: 2px solid var(--green-neon);
+  color: var(--text-green);
+
+  padding: 1rem 1.6rem;
+  border-radius: 12px;
+
+  box-shadow: 0 0 20px var(--glow-ooze);
+
+  font-family: var(--font-ui);
+  font-size: 1rem;
+
+  animation: toastFade var(--anim-mid) var(--anim-soft);
+  z-index: 200;
+}
+
+@keyframes toastFade {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+

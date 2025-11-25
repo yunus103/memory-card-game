@@ -107,6 +107,7 @@ header img:hover {
 @media (max-width: 768px) {
   header {
     flex-direction: column;
+    margin-bottom: 1rem;
   }
 
   .homeImage {
@@ -135,9 +136,7 @@ main {
 
 .cards {
   width: 100%;
-  /* display: grid; */
   display: flex;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
   justify-items: center;
   justify-content: center;
@@ -145,10 +144,36 @@ main {
 
 .card {
   width: 220px;
-  height: 340px;
+  aspect-ratio: 220 / 340;
   perspective: 1000px;
   cursor: pointer;
   border-radius: 15px;
+}
+
+@media (max-width: 1200px) {
+  .card {
+    width: 200px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .cards {
+    flex-wrap: wrap;
+  }
+
+  .card {
+    width: 180px;
+  }
+
+  body {
+    overflow: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    width: max(25vw, 128px);
+  }
 }
 
 /* The library controls this element's transform. We just set 3d style. */
@@ -256,7 +281,7 @@ main {
 /* --- The image (win/lose art) --- */
 .game-over-modal img {
   width: 85%;
-  max-width: 420px;
+  max-width: 600px;
   border-radius: 12px;
   object-fit: cover;
   margin-bottom: 1.5rem;

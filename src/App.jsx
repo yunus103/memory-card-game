@@ -4,6 +4,7 @@ import Home from "./components/Home/Home";
 import Game from "./components/Game/Game";
 import Footer from "./components/footer";
 import Toast from "./components/Toast";
+import { motion } from "framer-motion";
 
 function App() {
   const [toastMessage, setToastMessage] = useState("");
@@ -43,16 +44,33 @@ function App() {
 
   const restartGame = () => {
     setDifficulty(null);
-  }
+  };
 
   return (
     <>
       {difficulty === null ? (
-        <Home onDifficultyPick={handleDifficultyChange}></Home>
+        <motion.div
+          initial={{ scale: 0.5, opacity: 0 }} // Başlangıçta yarım boyutta ve görünmez
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 150, duration: 1.0 }} // Yay (spring) efekti ekler
+        >
+          <Home onDifficultyPick={handleDifficultyChange}></Home>
+        </motion.div>
       ) : (
-        <Game difficulty={difficulty} allCards={allCards} onRestart={restartGame}></Game>
+        <Game
+          difficulty={difficulty}
+          allCards={allCards}
+          onRestart={restartGame}
+        ></Game>
       )}
-      <Footer></Footer>
+      <motion.div
+        initial={{ opacity: 0, bottom: -100 }} // Başlangıçta 50 piksel aşağıda ve görünmez
+        animate={{ opacity: 1, bottom: 0 }} // Hedef: Kendi orijinal konumunda ve görünür
+        transition={{ duration: 0.7 }}
+      >
+        <Footer></Footer>
+      </motion.div>
+
       <Toast
         message={toastMessage}
         isVisible={toastVisible}

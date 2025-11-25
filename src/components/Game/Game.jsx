@@ -3,6 +3,7 @@ import title from "../../assets/title.png";
 import Tilt from "react-parallax-tilt";
 import shuffleCards from "../../utils/shuffle";
 import GameOver from "../GameOver";
+import { motion } from "framer-motion";
 
 const difficultyMap = {
   easy: 3,
@@ -94,46 +95,58 @@ export default function Game({ difficulty, allCards, onRestart }) {
 
   return (
     <>
-      <header>
-        <img src={title} alt="logo" width="300px" onClick={onRestart} />
-        <div className="score-info">
-          <p className="score-text">Score: {score}</p>
-          <p className="score-text">Best Score: {bestScore}</p>
-        </div>
-      </header>
+      <motion.div
+        initial={{ opacity: 0, y: -50 }} // Başlangıçta 50 piksel aşağıda ve görünmez
+        animate={{ opacity: 1, y: 0 }} // Hedef: Kendi orijinal konumunda ve görünür
+        transition={{ duration: 0.7 }}
+      >
+        <header>
+          <img src={title} alt="logo" width="300px" onClick={onRestart} />
+          <div className="score-info">
+            <p className="score-text">Score: {score}</p>
+            <p className="score-text">Best Score: {bestScore}</p>
+          </div>
+        </header>
+      </motion.div>
 
-      <main>
-        <div className="cards">
-          {cardsForRound.map((card) => (
-            <div
-              key={card.id}
-              className={isFlipped ? "card flipped" : "card"}
-              onClick={() => playRound(card.id)}
-            >
-              <Tilt
-                glareEnable={false}
-                glareMaxOpacity={0.6}
-                glareColor="#ffffff"
-                glarePosition="bottom"
-                glareBorderRadius="15px"
-                className="tilt"
+      <motion.div
+        initial={{ scale: 0.5, opacity: 0 }} // Başlangıçta yarım boyutta ve görünmez
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 80, damping: 15, mass: 1.5 }} // Yay (spring) efekti ekler
+      >
+        <main>
+          <div className="cards">
+            {cardsForRound.map((card) => (
+              <div
+                key={card.id}
+                className={isFlipped ? "card flipped" : "card"}
+                onClick={() => playRound(card.id)}
               >
-                {/* NEW WRAPPER HERE */}
-                <div className="inner-flip">
-                  <div className="cardFace">
-                    <img src={card.image_uris.art_crop} alt="" />
-                    <p>{card.name.split(",")[0]}</p>
+                <Tilt
+                  glareEnable={false}
+                  glareMaxOpacity={0.6}
+                  glareColor="#ffffff"
+                  glarePosition="bottom"
+                  glareBorderRadius="15px"
+                  className="tilt"
+                >
+                  {/* NEW WRAPPER HERE */}
+                  <div className="inner-flip">
+                    <div className="cardFace">
+                      <img src={card.image_uris.art_crop} alt="" />
+                      <p>{card.name.split(/[\s,]+/)[0]}</p>
+                    </div>
+                    <div className="cardBack"></div>
                   </div>
-                  <div className="cardBack"></div>
-                </div>
-              </Tilt>
-            </div>
-          ))}
-        </div>
-        <p className="card-score">
-          {score} / {cardsToPlaySize}
-        </p>
-      </main>
+                </Tilt>
+              </div>
+            ))}
+          </div>
+          <p className="card-score">
+            {score} / {cardsToPlaySize}
+          </p>
+        </main>
+      </motion.div>
       {isGameOver && (
         <GameOver
           status={isGameWon}
